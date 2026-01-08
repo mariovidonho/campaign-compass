@@ -1,107 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Dashboard Metrics Design System - Blue Modern Theme */
+/* Dashboard Métricas - MPereira Brand Identity */
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 220 20% 10%;
+    /* MPereira Brand Colors */
+    --background: 210 25% 98%;
+    --foreground: 213 45% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 10%;
+    --card-foreground: 213 45% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 10%;
+    --popover-foreground: 213 45% 15%;
 
-    --primary: 217 91% 60%;
+    /* Primary: Navy Blue from MPereira */
+    --primary: 213 65% 22%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 215 20% 93%;
-    --secondary-foreground: 220 20% 20%;
+    /* Secondary: Lighter Navy */
+    --secondary: 213 35% 92%;
+    --secondary-foreground: 213 45% 20%;
 
-    --muted: 215 20% 95%;
-    --muted-foreground: 215 15% 45%;
+    --muted: 213 25% 94%;
+    --muted-foreground: 213 20% 45%;
 
-    --accent: 217 91% 60%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent: Gold/Bronze from MPereira */
+    --accent: 42 50% 56%;
+    --accent-foreground: 213 45% 15%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 160 84% 39%;
+    --success: 152 69% 31%;
     --success-foreground: 0 0% 100%;
 
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 215 25% 90%;
-    --input: 215 25% 90%;
-    --ring: 217 91% 60%;
+    --border: 213 25% 88%;
+    --input: 213 25% 88%;
+    --ring: 213 65% 22%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 217 91% 60%;
+    --sidebar-background: 213 65% 22%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 42 50% 56%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 20% 95%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-accent: 213 55% 28%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 213 55% 30%;
+    --sidebar-ring: 42 50% 56%;
 
-    /* Chart colors */
-    --chart-1: 217 91% 60%;
-    --chart-2: 160 84% 39%;
-    --chart-3: 38 92% 50%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 0 84% 60%;
+    /* Chart colors - MPereira inspired */
+    --chart-1: 213 65% 22%;
+    --chart-2: 42 50% 56%;
+    --chart-3: 152 69% 31%;
+    --chart-4: 213 45% 45%;
+    --chart-5: 38 92% 50%;
   }
 
   .dark {
-    --background: 220 20% 8%;
-    --foreground: 210 20% 98%;
+    --background: 213 45% 8%;
+    --foreground: 210 25% 98%;
 
-    --card: 220 20% 12%;
-    --card-foreground: 210 20% 98%;
+    --card: 213 40% 12%;
+    --card-foreground: 210 25% 98%;
 
-    --popover: 220 20% 12%;
-    --popover-foreground: 210 20% 98%;
+    --popover: 213 40% 12%;
+    --popover-foreground: 210 25% 98%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 42 50% 56%;
+    --primary-foreground: 213 45% 10%;
 
-    --secondary: 215 20% 20%;
-    --secondary-foreground: 210 20% 98%;
+    --secondary: 213 35% 18%;
+    --secondary-foreground: 210 25% 98%;
 
-    --muted: 215 20% 18%;
-    --muted-foreground: 215 15% 60%;
+    --muted: 213 30% 16%;
+    --muted-foreground: 213 20% 60%;
 
-    --accent: 217 91% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 42 50% 56%;
+    --accent-foreground: 213 45% 10%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 160 84% 39%;
+    --success: 152 69% 35%;
     --success-foreground: 0 0% 100%;
 
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 215 20% 20%;
-    --input: 215 20% 20%;
-    --ring: 217 91% 60%;
+    --border: 213 30% 20%;
+    --input: 213 30% 20%;
+    --ring: 42 50% 56%;
 
-    --sidebar-background: 220 20% 10%;
-    --sidebar-foreground: 210 20% 90%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 20% 18%;
-    --sidebar-accent-foreground: 210 20% 98%;
-    --sidebar-border: 215 20% 20%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-background: 213 45% 10%;
+    --sidebar-foreground: 210 25% 95%;
+    --sidebar-primary: 42 50% 56%;
+    --sidebar-primary-foreground: 213 45% 10%;
+    --sidebar-accent: 213 35% 18%;
+    --sidebar-accent-foreground: 210 25% 98%;
+    --sidebar-border: 213 30% 20%;
+    --sidebar-ring: 42 50% 56%;
   }
 }
 
@@ -112,13 +118,23 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    font-family: 'Montserrat', sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
   }
 }
 
 @layer utilities {
   .gradient-primary {
-    @apply bg-gradient-to-r from-primary to-blue-400;
+    @apply bg-gradient-to-r from-primary to-primary/80;
+  }
+  
+  .gradient-accent {
+    @apply bg-gradient-to-r from-accent to-amber-500;
   }
   
   .gradient-success {
@@ -134,10 +150,14 @@
   }
 
   .card-shadow {
-    @apply shadow-sm hover:shadow-md transition-shadow duration-300;
+    @apply shadow-sm hover:shadow-lg transition-shadow duration-300;
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  }
+
+  .brand-gradient {
+    @apply bg-gradient-to-br from-primary via-primary/90 to-primary/80;
   }
 }

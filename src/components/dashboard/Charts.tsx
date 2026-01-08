@@ -10,6 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   ReferenceLine,
+  Cell,
 } from 'recharts';
 import { CampanhaComMetricas, Configuracoes } from '@/types';
 import { formatarMoeda } from '@/lib/calculations';
@@ -143,7 +144,7 @@ export function Charts({ campanhas, configuracoes, isLoading }: ChartsProps) {
                 <Tooltip content={<CustomTooltip />} />
                 <Bar
                   dataKey="leads"
-                  fill="hsl(var(--success))"
+                  fill="hsl(42 50% 56%)"
                   radius={[0, 4, 4, 0]}
                   name="leads"
                 />
@@ -180,13 +181,11 @@ export function Charts({ campanhas, configuracoes, isLoading }: ChartsProps) {
                 dataKey="cpl"
                 name="cpl"
                 radius={[4, 4, 0, 0]}
-                fill="hsl(var(--success))"
               >
                 {cplData.map((entry, index) => (
-                  <Bar
-                    key={`bar-${index}`}
-                    dataKey="cpl"
-                    fill={entry.isAboveAlert ? 'hsl(var(--destructive))' : 'hsl(var(--success))'}
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={entry.isAboveAlert ? 'hsl(0 72% 51%)' : 'hsl(152 69% 31%)'}
                   />
                 ))}
               </Bar>
