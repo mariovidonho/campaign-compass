@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { BarChart3, Settings, CalendarIcon, Download } from 'lucide-react';
+import { Settings, CalendarIcon, Download } from 'lucide-react';
 import { FiltroData, PeriodoFiltro } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import * as XLSX from 'xlsx';
 import { CampanhaComMetricas } from '@/types';
 import { formatarMoeda, formatarPorcentagem } from '@/lib/calculations';
+import logoMpereira from '@/assets/logo-mpereira.png';
 
 interface HeaderProps {
   filtro: FiltroData;
@@ -84,11 +85,15 @@ export function Header({ filtro, onFiltroChange, onOpenAdmin, campanhas }: Heade
   return (
     <header className="border-b bg-card px-6 py-4">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg gradient-primary">
-            <BarChart3 className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <div>
+        <div className="flex items-center gap-4">
+          <a href="https://mpereira.com.br/" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
+            <img 
+              src={logoMpereira} 
+              alt="MPereira Logo" 
+              className="h-12 w-auto object-contain"
+            />
+          </a>
+          <div className="border-l border-border pl-4">
             <h1 className="text-xl font-bold text-foreground">Dashboard de Métricas</h1>
             <p className="text-sm text-muted-foreground">Análise de campanhas publicitárias</p>
           </div>

@@ -19,8 +19,8 @@ export function AdminPanel({ open, onClose, editingCampanha, onClearEdit }: Admi
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-xl">Área Administrativa</DialogTitle>
+        <DialogHeader className="border-b pb-4">
+          <DialogTitle className="text-xl font-bold">Área Administrativa</DialogTitle>
         </DialogHeader>
         
         <Tabs defaultValue={editingCampanha ? 'adicionar' : 'upload'} className="mt-4">
