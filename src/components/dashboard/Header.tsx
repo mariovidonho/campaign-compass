@@ -11,6 +11,7 @@ import * as XLSX from 'xlsx';
 import { CampanhaComMetricas } from '@/types';
 import { formatarMoeda, formatarPorcentagem } from '@/lib/calculations';
 import logoMpereira from '@/assets/logo-mpereira.png';
+import { LogoutButton } from '@/components/auth/LogoutButton';
 
 interface HeaderProps {
   filtro: FiltroData;
@@ -177,6 +178,9 @@ export function Header({ filtro, onFiltroChange, onOpenAdmin, campanhas }: Heade
             <Settings className="mr-2 h-4 w-4" />
             Área ADM
           </Button>
+
+          {/* Logout Button */}
+          <LogoutButton />
         </div>
       </div>
     </header>
