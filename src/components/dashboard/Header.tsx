@@ -30,6 +30,7 @@ export function Header({ filtro, onFiltroChange, onOpenAdmin, campanhas }: Heade
     { value: 'hoje', label: 'Hoje' },
     { value: '7dias', label: '7 dias' },
     { value: '30dias', label: '30 dias' },
+    { value: '90dias', label: '90 dias' },
     { value: 'customizado', label: 'Customizado' },
   ];
 
@@ -103,7 +104,7 @@ export function Header({ filtro, onFiltroChange, onOpenAdmin, campanhas }: Heade
         <div className="flex flex-wrap items-center gap-2">
           {/* Period Filters */}
           <div className="flex rounded-lg border bg-muted p-1">
-            {periodos.slice(0, 3).map((p) => (
+            {periodos.slice(0, 4).map((p) => (
               <Button
                 key={p.value}
                 variant={filtro.periodo === p.value ? 'default' : 'ghost'}

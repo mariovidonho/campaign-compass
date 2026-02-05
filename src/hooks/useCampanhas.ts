@@ -14,6 +14,8 @@ function getDateRange(filtro: FiltroData): { start: Date; end: Date } {
       return { start: startOfDay(subDays(hoje, 7)), end: endOfDay(hoje) };
     case '30dias':
       return { start: startOfDay(subDays(hoje, 30)), end: endOfDay(hoje) };
+    case '90dias':
+      return { start: startOfDay(subDays(hoje, 90)), end: endOfDay(hoje) };
     case 'customizado':
       return {
         start: filtro.dataInicio ? startOfDay(filtro.dataInicio) : startOfDay(subDays(hoje, 30)),
@@ -27,15 +29,26 @@ function getDateRange(filtro: FiltroData): { start: Date; end: Date } {
 export function useCampanhas(filtro: FiltroData) {
   const { start, end } = getDateRange(filtro);
   
+  // Formata datas para YYYY-MM-DD considerando o fuso horário local
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const startStr = formatDate(start);
+  const endStr = formatDate(end);
+
   return useQuery({
     queryKey: ['campanhas', filtro],
     queryFn: async (): Promise<CampanhaComMetricas[]> => {
       const { data, error } = await supabase
         .from('campanhas')
         .select('*')
-        .gte('data_inicio', start.toISOString().split('T')[0])
-        .lte('data_inicio', end.toISOString().split('T')[0])
-        .order('created_at', { ascending: false });
+        .gte('data_inicio', startStr)
+        .lte('data_inicio', endStr)
+        .order('data_inicio', { ascending: false });
       
       if (error) throw error;
       
@@ -127,6 +140,8 @@ export function useImportarCampanhas() {
   
   return useMutation({
     mutationFn: async (campanhas: Omit<Campanha, 'id' | 'created_at' | 'updated_at'>[]) => {
+      // Tenta inserir as campanhas. O Supabase retornará erro se houver duplicatas baseadas em políticas,
+      // mas aqui estamos apenas inserindo.
       const { data, error } = await supabase
         .from('campanhas')
         .insert(campanhas)
@@ -136,6 +151,7 @@ export function useImportarCampanhas() {
       return data;
     },
     onSuccess: () => {
+      // Força a atualização de todas as queries relacionadas a campanhas
       queryClient.invalidateQueries({ queryKey: ['campanhas'] });
       queryClient.invalidateQueries({ queryKey: ['todas-campanhas'] });
     },
