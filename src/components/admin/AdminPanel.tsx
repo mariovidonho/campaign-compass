@@ -18,13 +18,13 @@ interface AdminPanelProps {
 export function AdminPanel({ open, onClose, editingCampanha, onClearEdit }: AdminPanelProps) {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader className="border-b pb-4">
+      <DialogContent className="max-w-4xl max-h-[90vh] flex flex-col p-0 overflow-hidden">
+        <DialogHeader className="px-6 py-4 border-b">
           <DialogTitle className="text-xl font-bold">Área Administrativa</DialogTitle>
         </DialogHeader>
         
-        <Tabs defaultValue={editingCampanha ? 'adicionar' : 'upload'} className="mt-4">
-          <TabsList className="grid w-full grid-cols-5">
+        <Tabs defaultValue={editingCampanha ? 'adicionar' : 'upload'} className="flex-1 flex flex-col overflow-hidden">
+          <TabsList className="grid w-full grid-cols-5 p-4 bg-muted/50">
             <TabsTrigger value="upload" className="flex items-center gap-2">
               <Upload className="h-4 w-4" />
               <span className="hidden sm:inline">Upload CSV</span>
@@ -47,21 +47,23 @@ export function AdminPanel({ open, onClose, editingCampanha, onClearEdit }: Admi
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="upload" className="mt-6">
-            <UploadCSV />
-          </TabsContent>
-          <TabsContent value="adicionar" className="mt-6">
-            <AddCampaignForm campanha={editingCampanha} onSuccess={() => { onClearEdit(); }} />
-          </TabsContent>
-          <TabsContent value="historico" className="mt-6">
-            <UploadHistory />
-          </TabsContent>
-          <TabsContent value="config" className="mt-6">
-            <SettingsForm />
-          </TabsContent>
-          <TabsContent value="gerenciar" className="mt-6">
-            <ManageCampaigns />
-          </TabsContent>
+          <div className="flex-1 overflow-y-auto p-6 pt-2">
+            <TabsContent value="upload" className="mt-0 outline-none">
+              <UploadCSV />
+            </TabsContent>
+            <TabsContent value="adicionar" className="mt-0 outline-none">
+              <AddCampaignForm campanha={editingCampanha} onSuccess={() => { onClearEdit(); }} />
+            </TabsContent>
+            <TabsContent value="historico" className="mt-0 outline-none">
+              <UploadHistory />
+            </TabsContent>
+            <TabsContent value="config" className="mt-0 outline-none">
+              <SettingsForm />
+            </TabsContent>
+            <TabsContent value="gerenciar" className="mt-0 outline-none">
+              <ManageCampaigns />
+            </TabsContent>
+          </div>
         </Tabs>
       </DialogContent>
     </Dialog>

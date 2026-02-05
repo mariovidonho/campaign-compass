@@ -3,14 +3,43 @@ import { CSVRow, ValidationError, StatusCampanha } from '@/types';
 
 const STATUS_VALIDOS: StatusCampanha[] = ['ativa', 'pausada', 'concluida'];
 
+const COLUMN_MAP: Record<string, keyof CSVRow> = {
+  'nome_campanha': 'nome_campanha',
+  'campanha': 'nome_campanha',
+  'nome': 'nome_campanha',
+  'status': 'status',
+  'data_inicio': 'data_inicio',
+  'inicio': 'data_inicio',
+  'data': 'data_inicio',
+  'data_fim': 'data_fim',
+  'fim': 'data_fim',
+  'gasto_total': 'gasto_total',
+  'gasto': 'gasto_total',
+  'investimento': 'gasto_total',
+  'leads_gerados': 'leads_gerados',
+  'leads': 'leads_gerados',
+  'conversoes': 'conversoes',
+  'conversões': 'conversoes',
+  'receita_gerada': 'receita_gerada',
+  'receita': 'receita_gerada',
+  'faturamento': 'receita_gerada',
+};
+
 export function parseCSV(file: File): Promise<{ data: CSVRow[]; errors: ValidationError[] }> {
   return new Promise((resolve, reject) => {
-    Papa.parse<CSVRow>(file, {
+    Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
+      transformHeader: (header) => {
+        const normalized = header.toLowerCase().trim()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove acentos
+          .replace(/\s+/g, '_');
+        return COLUMN_MAP[normalized] || normalized;
+      },
       complete: (results) => {
-        const errors = validateCSVData(results.data);
-        resolve({ data: results.data, errors });
+        const data = results.data as CSVRow[];
+        const errors = validateCSVData(data);
+        resolve({ data, errors });
       },
       error: (error) => {
         reject(error);
@@ -80,7 +109,7 @@ export function validateCSVData(data: CSVRow[]): ValidationError[] {
     }
 
     // Validate non-negative values
-    if (parseFloat(row.gasto_total) < 0) {
+    if (parseFloat(cleanNumericString(row.gasto_total)) < 0) {
       errors.push({ row: rowNum, field: 'gasto_total', message: 'Gasto total não pode ser negativo' });
     }
   });
@@ -95,25 +124,33 @@ function isValidDate(dateString: string): boolean {
   return !isNaN(date.getTime());
 }
 
+function cleanNumericString(value: string): string {
+  if (!value) return "0";
+  return value.replace(/[^\d.,-]/g, '').replace(',', '.');
+}
+
 function isValidNumber(value: string): boolean {
-  const num = parseFloat(value);
+  if (!value || value.trim() === '') return true;
+  const num = parseFloat(cleanNumericString(value));
   return !isNaN(num);
 }
 
 function isValidInteger(value: string): boolean {
-  const num = parseInt(value);
-  return !isNaN(num) && num === parseFloat(value);
+  if (!value || value.trim() === '') return true;
+  const cleaned = cleanNumericString(value);
+  const num = parseFloat(cleaned);
+  return !isNaN(num) && Number.isInteger(num);
 }
 
 export function convertCSVRowToCampanha(row: CSVRow) {
   return {
-    nome_campanha: row.nome_campanha.trim(),
-    status: row.status.toLowerCase().trim() as StatusCampanha,
-    data_inicio: row.data_inicio.trim(),
-    data_fim: row.data_fim?.trim() || null,
-    gasto_total: parseFloat(row.gasto_total) || 0,
-    leads_gerados: parseInt(row.leads_gerados) || 0,
-    conversoes: parseInt(row.conversoes) || 0,
-    receita_gerada: parseFloat(row.receita_gerada) || 0,
+    nome_campanha: String(row.nome_campanha || '').trim(),
+    status: (String(row.status || 'ativa').toLowerCase().trim()) as StatusCampanha,
+    data_inicio: String(row.data_inicio || '').trim(),
+    data_fim: row.data_fim ? String(row.data_fim).trim() : null,
+    gasto_total: parseFloat(cleanNumericString(String(row.gasto_total))) || 0,
+    leads_gerados: parseInt(cleanNumericString(String(row.leads_gerados))) || 0,
+    conversoes: parseInt(cleanNumericString(String(row.conversoes))) || 0,
+    receita_gerada: parseFloat(cleanNumericString(String(row.receita_gerada))) || 0,
   };
 }

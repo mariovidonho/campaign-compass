@@ -53,13 +53,13 @@ export function Charts({ campanhas, configuracoes, isLoading }: ChartsProps) {
   const alertaCPL = configuracoes?.alerta_cpl ?? 50;
 
   // Data for spend evolution chart
-  const gastosData = campanhas
+  const gastosData = [...campanhas]
+    .sort((a, b) => new Date(a.data_inicio).getTime() - new Date(b.data_inicio).getTime())
     .map((c) => ({
       data: format(new Date(c.data_inicio), 'dd/MM', { locale: ptBR }),
       gasto: c.gasto_total,
       nome: c.nome_campanha,
-    }))
-    .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime());
+    }));
 
   // Data for leads by campaign (top 10)
   const leadsData = [...campanhas]

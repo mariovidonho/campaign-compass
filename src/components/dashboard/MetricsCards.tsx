@@ -107,32 +107,24 @@ export function MetricsCards({ campanhas, configuracoes, isLoading }: MetricsCar
           icon={<DollarSign className="h-6 w-6 text-primary" />}
           label="Total Gasto"
           value={formatarMoeda(metricas.totalGasto)}
-          change={12.5}
-          changeLabel="vs período anterior"
           iconBgClass="bg-primary/10"
         />
         <MetricCard
           icon={<Users className="h-6 w-6 text-success" />}
           label="Total de Leads"
           value={formatarNumero(metricas.totalLeads)}
-          change={8.2}
-          changeLabel="vs período anterior"
           iconBgClass="bg-success/10"
         />
         <MetricCard
           icon={<Target className="h-6 w-6 text-warning" />}
           label="CPL Médio Geral"
           value={formatarMoeda(metricas.cplMedio)}
-          change={-5.3}
-          changeLabel="vs período anterior"
           iconBgClass="bg-warning/10"
         />
         <MetricCard
           icon={<TrendingUp className="h-6 w-6 text-primary" />}
           label="ROI Total"
           value={formatarPorcentagem(metricas.roiTotal)}
-          change={15.8}
-          changeLabel="vs período anterior"
           iconBgClass="bg-primary/10"
         />
       </div>
@@ -143,7 +135,6 @@ export function MetricsCards({ campanhas, configuracoes, isLoading }: MetricsCar
           icon={<Percent className="h-6 w-6 text-success" />}
           label="Taxa de Conversão Média"
           value={formatarPorcentagem(metricas.taxaConversaoMedia)}
-          change={3.2}
           iconBgClass="bg-success/10"
         />
         
