@@ -29,7 +29,8 @@ export function parseCSV(file: File): Promise<{ data: CSVRow[]; errors: Validati
   return new Promise((resolve, reject) => {
     Papa.parse(file, {
       header: true,
-      skipEmptyLines: true,
+      skipEmptyLines: 'greedy',
+      delimitersToGuess: [',', ';', '\t', '|'],
       transformHeader: (header) => {
         const normalized = header.toLowerCase().trim()
           .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove acentos
@@ -37,7 +38,10 @@ export function parseCSV(file: File): Promise<{ data: CSVRow[]; errors: Validati
         return COLUMN_MAP[normalized] || normalized;
       },
       complete: (results) => {
-        const data = results.data as CSVRow[];
+        // Filtra linhas vazias que o greedy pode ter deixado passar
+        const data = (results.data as any[]).filter(row => 
+          Object.values(row).some(val => val !== null && val !== undefined && String(val).trim() !== '')
+        ) as CSVRow[];
         const errors = validateCSVData(data);
         resolve({ data, errors });
       },
@@ -125,8 +129,24 @@ function isValidDate(dateString: string): boolean {
 }
 
 function cleanNumericString(value: string): string {
-  if (!value) return "0";
-  return value.replace(/[^\d.,-]/g, '').replace(',', '.');
+  if (value === null || value === undefined) return "0";
+  const str = String(value).trim();
+  if (str === "") return "0";
+  
+  // Se tiver vírgula e ponto, assumimos que o ponto é milhar e a vírgula é decimal (padrão BR)
+  // Se tiver apenas vírgula, trocamos por ponto
+  // Removemos tudo que não seja dígito, ponto, vírgula ou sinal de menos
+  let cleaned = str.replace(/[^\d.,-]/g, '');
+  
+  if (cleaned.includes(',') && cleaned.includes('.')) {
+    // Caso 1.234,56 -> 1234.56
+    cleaned = cleaned.replace(/\./g, '').replace(',', '.');
+  } else if (cleaned.includes(',')) {
+    // Caso 1234,56 -> 1234.56
+    cleaned = cleaned.replace(',', '.');
+  }
+  
+  return cleaned;
 }
 
 function isValidNumber(value: string): boolean {
@@ -147,7 +167,7 @@ export function convertCSVRowToCampanha(row: CSVRow) {
     nome_campanha: String(row.nome_campanha || '').trim(),
     status: (String(row.status || 'ativa').toLowerCase().trim()) as StatusCampanha,
     data_inicio: String(row.data_inicio || '').trim(),
-    data_fim: row.data_fim ? String(row.data_fim).trim() : null,
+    data_fim: row.data_fim && String(row.data_fim).trim() !== '' ? String(row.data_fim).trim() : null,
     gasto_total: parseFloat(cleanNumericString(String(row.gasto_total))) || 0,
     leads_gerados: parseInt(cleanNumericString(String(row.leads_gerados))) || 0,
     conversoes: parseInt(cleanNumericString(String(row.conversoes))) || 0,

@@ -39,7 +39,7 @@ export interface CampanhaComMetricas extends Campanha {
   taxa_conversao: number;
 }
 
-export type PeriodoFiltro = 'hoje' | '7dias' | '30dias' | '90dias' | 'customizado';
+export type PeriodoFiltro = 'hoje' | '7dias' | '30dias' | '90dias' | 'tudo' | 'customizado';
 
 export interface FiltroData {
   periodo: PeriodoFiltro;

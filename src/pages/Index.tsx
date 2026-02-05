@@ -11,7 +11,7 @@ import { FiltroData, CampanhaComMetricas } from '@/types';
 import { toast } from 'sonner';
 
 const Index = () => {
-  const [filtro, setFiltro] = useState<FiltroData>({ periodo: '90dias' });
+  const [filtro, setFiltro] = useState<FiltroData>({ periodo: 'tudo' });
   const [adminOpen, setAdminOpen] = useState(false);
   const [editingCampanha, setEditingCampanha] = useState<CampanhaComMetricas | null>(null);
 

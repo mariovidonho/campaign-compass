@@ -16,6 +16,8 @@ function getDateRange(filtro: FiltroData): { start: Date; end: Date } {
       return { start: startOfDay(subDays(hoje, 30)), end: endOfDay(hoje) };
     case '90dias':
       return { start: startOfDay(subDays(hoje, 90)), end: endOfDay(hoje) };
+    case 'tudo':
+      return { start: new Date(2000, 0, 1), end: new Date(2100, 0, 1) };
     case 'customizado':
       return {
         start: filtro.dataInicio ? startOfDay(filtro.dataInicio) : startOfDay(subDays(hoje, 30)),
